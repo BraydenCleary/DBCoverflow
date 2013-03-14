@@ -45,4 +45,12 @@ class AnswersController < ApplicationController
     end
   end
 
+  def favorite
+    @answer = Answer.find(params[:id])
+    @question = @answer.question
+    @question.favorite = @answer
+    @question.save
+    redirect_to :back
+  end
+
 end

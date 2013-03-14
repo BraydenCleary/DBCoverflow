@@ -17,4 +17,18 @@ class Question < ActiveRecord::Base
     self.votes.sum('value')
   end
 
+  def favorite=(answer)
+    self.favorite_answer_id = answer.id
+  end
+
+  def favorite
+    Answer.find(self.favorite_answer_id)
+  end
+
+  def find_valid_answers
+    self.answers.select do |answer| 
+      answer.valid? && answer.id != self.favorite.id
+    end
+  end
+
 end

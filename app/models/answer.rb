@@ -9,4 +9,8 @@ class Answer < ActiveRecord::Base
   def sum_vote
     self.votes.sum('value')
   end
+
+  def favorite_for
+    Question.where(:favorite_answer_id => self.id).first
+  end
 end

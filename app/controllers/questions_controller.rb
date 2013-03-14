@@ -34,10 +34,11 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question_votes = @question.sum_vote
     @errors = params[:errors] 
     @response_errors = params[:response_errors]
-    @answers = @question.answers.select { |answer| answer.valid? }
+    @question_votes = @question.sum_vote
+    @favorite_answer = @question.favorite
+    @answers = @question.find_valid_answers
   end
 
   def responses

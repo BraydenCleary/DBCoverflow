@@ -17,6 +17,8 @@ DBCoverflow::Application.routes.draw do
   post "/responses/:id/upvote" => "responses#upvote", :as => :upvote_response
   post "/responses/:id/downvote" => "responses#downvote", :as => :downvote_response
 
+  post "/answers/:id/favorite" => "answers#favorite", :as => :favorite_answer
+
 
   resources :users
   resources :questions

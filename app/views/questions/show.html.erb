@@ -45,11 +45,16 @@ Question Comments: <% @question.responses.each do |response| %>
 
 
 <% unless @answers.empty? %>
-  <ul class='answers'>
-    <% @answers.each do |answer| %>
-      <%= render 'answer', :answer => answer%>
-    <% end %>   
-  </ul> 
+    <ul class='answers'>
+      <span class='favorite'><%= @favorite_answer.content %></span>
+      <% @answers.each do |answer| %>
+        <% if current_user.id == @question.user_id %>
+          <%= render 'favorite_answer', :answer => answer, :question => @question %>
+        <% else %>
+          <%= render 'answer', :answer => answer, :question => @question %>
+        <% end %>
+      <% end %>  
+    </ul> 
 <% end%>
 
 
