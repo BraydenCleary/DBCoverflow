@@ -1,2 +1,2 @@
-$('.answers').append("<li><%= @answer.content%></li>");
+$('.answers').append("<%= escape_javascript(render('questions/answer', :answer => @answer)) %>");
 $('.new_answer').find('textarea[name="answer[content]"]').val('')

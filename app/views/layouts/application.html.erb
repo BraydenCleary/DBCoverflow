@@ -7,8 +7,17 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= User.find(session[:user_id]).username if session[:user_id] %>
-<%= link_to 'Log Out', '/logout' if session[:user_id] %>
+<% if current_user %>
+  <%= link_to 'Log Out', '/logout' if session[:user_id] %>
+  <%= link_to 'My Profile', user_path(current_user) %>
+  <%= link_to 'Browse Questions', questions_path %>
+  <%= link_to 'Ask a Question', new_question_path %>
+<% end %>
+<% if flash[:notice] %>
+  <div class='notice'>
+    <%= flash[:notice] %>
+  </div>
+<% end %>
 <%= yield %>
 
 </body>

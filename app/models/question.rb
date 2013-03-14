@@ -13,4 +13,8 @@ class Question < ActiveRecord::Base
     self.save
   end
 
+  def sum_vote
+    self.votes.sum('value')
+  end
+
 end

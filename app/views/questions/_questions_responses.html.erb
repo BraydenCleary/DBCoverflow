@@ -1,5 +1,5 @@
 <%= form_tag "/questions/#{question_id}/responses" do %>
-  <%= label_tag :content, "Enter your comment" %>
+  <%= label_tag :content, "Enter your question comment:" %>
   <%= text_area_tag :content %>
   <%= submit_tag "Post comment" %>
 <% end %>  

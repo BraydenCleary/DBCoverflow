@@ -10,25 +10,29 @@
 
 
 <div>
-  Content: <%= @question.content %>
+  Question: <%= @question.content %>
   By: <%= @question_asker.username %>
-  Comments: <% @question.responses.each do |response| %>
-    <%= response.content %>
-  <% end %>
+  Votes: <%= @question.sum_vote %>
 </div>
 
+<div class='voting'>
+  <%= link_to raw("&uarr;"), upvote_question_path(@question.id), :method => :post  %>
+  <%= link_to raw("&darr;"), downvote_question_path(@question.id), :method => :post  %>
+</div>
+
+Question Comments: <% @question.responses.each do |response| %>
+    <li><%= response.content %> <%= response.sum_vote %> <%= link_to raw("&uarr;"), upvote_response_path(response.id), :method => :post %> <%= link_to raw("&darr;"), downvote_response_path(response.id), :method => :post %></li>
+  <% end %>
+
 <div>
-  <%= @question.vote_count %>
+  <%= @votes %>
 </div>  
 
 <div class='vote-errors'>
   <%= render_vote_errors(@vote_error) %>
 </div>
 
-<div class='voting'>
-  <%= link_to "upvote!", vote_path(@question.id, :vote_type => 'upvote'), :method => :post  %>
-  <%= link_to "downvote!", vote_path(@question.id, :vote_type => 'downvote'), :method => :post  %>
-</div>
+
 
 <div class='response-errors'>
   <% if @response_errors %>
@@ -40,18 +44,17 @@
 </div>
 
 
-<% if @question.answers %>
+<% unless @answers.empty? %>
   <ul class='answers'>
-    <% @question.answers.each do |answer| %>
-      <li><%= answer.content %></li>
+    <% @answers.each do |answer| %>
+      <%= render 'answer', :answer => answer%>
     <% end %>   
   </ul> 
 <% end%>
 
 
 <%= form_for(@answer, :remote => true) do |f| %>  <%# wasn't working when @answer was in form for %>
-  <%= f.label :content %>
-  <%= f.text_area :content %>
+  <%= f.text_area :content, :placeholder => "Answer the question!" %>
   <%= f.hidden_field :question_id, :value => @question.id %>
   <%= f.submit %>
 <% end %>  

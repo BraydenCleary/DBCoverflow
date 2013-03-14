@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130314021127) do
+ActiveRecord::Schema.define(:version => 20130314154556) do
 
   create_table "answers", :force => true do |t|
     t.text     "content",     :null => false
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20130314021127) do
     t.string   "votable_type", :null => false
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.integer  "value"
   end
 
   add_index "votes", ["user_id", "votable_type", "votable_id"], :name => "index_votes_on_user_id_and_votable_type_and_votable_id", :unique => true

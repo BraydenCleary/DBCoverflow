@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-
+  respond_to :js, :html
   def new
 
   end
@@ -9,13 +9,8 @@ class AnswersController < ApplicationController
 
   def create
     @answer = Answer.new(user_id: current_user.id, content: params[:answer][:content], question_id: params[:answer][:question_id])
-    respond_to do |format|
-      if @answer.save
-        format.js
-      else
-        format.html { redirect_to question_path(@answer.question, :errors => @errors) }
-      end
-    end  
+    @answer.save
+    respond_with @answer
   end
 
   def show
@@ -29,4 +24,25 @@ class AnswersController < ApplicationController
 
   def update
   end
+
+  def upvote
+    @answer = Answer.find(params[:id])
+    if current_user.upvote!(@answer).valid?
+      redirect_to :back
+    else
+      flash[:notice] = 'You already voted!'
+      redirect_to :back
+    end
+  end
+
+  def downvote
+    @answer = Answer.find(params[:id])
+    if current_user.downvote!(@answer).valid?
+      redirect_to :back
+    else
+      flash[:notice] = 'You already voted!'
+      redirect_to :back
+    end
+  end
+
 end

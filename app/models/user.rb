@@ -12,11 +12,16 @@ class User < ActiveRecord::Base
   validates :email, :format => { :with => /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
   validates :password, :length => { :minimum => 6 }
 
-  def has_voted?(votable) #question or answer object
-    Vote.where(:user_id)
-
+  def has_voted?(votable)
+    Vote.where(user_id: self.id, votable: votable)
   end
-    
 
+  def upvote!(votable)
+    self.votes.create(:votable => votable, :value => 1)
+  end
+
+  def downvote!(votable)
+    self.votes.create(:votable => votable, :value => -1)
+  end
 
 end

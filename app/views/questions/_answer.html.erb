@@ -1,0 +1,3 @@
+<li>
+  <%= answer.content %> || <%= answer.sum_vote %> || <%=link_to raw("&uarr;"), upvote_answer_path(answer), :method => :post %> <%=link_to raw("&darr;"), downvote_answer_path(answer), :method => :post %>
+</li>

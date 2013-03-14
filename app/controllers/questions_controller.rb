@@ -34,8 +34,10 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @question_votes = @question.sum_vote
     @errors = params[:errors] 
     @response_errors = params[:response_errors]
+    @answers = @question.answers.select { |answer| answer.valid? }
   end
 
   def responses
@@ -48,16 +50,22 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def vote
-    vote = @question.votes.new(user_id: current_user.id) 
-    if vote.save
-      @question.move_vote_counter(params[:vote_type])
+  def upvote
+    if current_user.upvote!(@question).valid?
       redirect_to question_path(@question)
     else
-      @vote_error = "you can't vote again!"
-      @answer = @question.answers.new  #ask about this!
-      render :show
-    end  
+      flash[:notice] = 'You already voted!'
+      redirect_to question_path(@question)
+    end
+  end
+
+  def downvote
+    if current_user.downvote!(@question).valid?
+      redirect_to question_path(@question)
+    else
+      flash[:notice] = 'You already voted!'
+      redirect_to question_path(@question)
+    end
   end
 
   private

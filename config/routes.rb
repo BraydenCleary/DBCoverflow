@@ -8,7 +8,14 @@ DBCoverflow::Application.routes.draw do
 
   post "/questions/:id/responses" => "questions#responses"
 
-  post "/questions/:id/votes" => "questions#vote", :as => :vote
+  post "/questions/:id/upvote" => "questions#upvote", :as => :upvote_question
+  post "/questions/:id/downvote" => "questions#downvote", :as => :downvote_question
+
+  post "/answers/:id/upvote" => "answers#upvote", :as => :upvote_answer
+  post "/answers/:id/downvote" => "answers#downvote", :as => :downvote_answer
+
+  post "/responses/:id/upvote" => "responses#upvote", :as => :upvote_response
+  post "/responses/:id/downvote" => "responses#downvote", :as => :downvote_response
 
 
   resources :users
